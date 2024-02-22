@@ -15,15 +15,38 @@ interface FetchProductsResponse {
 const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string>("");
+  const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    const configuration = {
+      signal: controller.signal,
+    };
+
+    setLoading(true);
+
     apiClient
-      .get<FetchProductsResponse>("/product")
-      .then((res) => setProducts(res.data.products))
-      .catch((error) => setError(error.message));
+      .get<FetchProductsResponse>("/product", configuration)
+      .then((res) => {
+        setProducts(res.data.products);
+        setLoading(false);
+      })
+      .catch((error) => {
+        if (error?.name === "CanceledError") {
+          return;
+        }
+
+        setError(error.message);
+        setLoading(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
-  return { products, error };
+  return { products, error, isLoading };
 };
 
 export default useProducts;
