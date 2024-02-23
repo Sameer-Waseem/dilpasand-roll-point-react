@@ -1,18 +1,23 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import useProducts from "../hooks/useProducts";
+import ProductCard from "./ProductCard";
 
 const Content = () => {
   const { products, error, isLoading } = useProducts();
 
-  if (isLoading) return <CircularProgress />;
-
   if (error) return error;
 
-  return products.map((product) => (
-    <div style={{ backgroundColor: "green", border: "5px solid black" }}>
-      {product.name}
-    </div>
-  ));
+  if (isLoading) return <CircularProgress />;
+
+  return (
+    <Grid container padding={"10px"}>
+      {products.map((product, index) => (
+        <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
+          <ProductCard product={product} />
+        </Grid>
+      ))}
+    </Grid>
+  );
 };
 
 export default Content;
