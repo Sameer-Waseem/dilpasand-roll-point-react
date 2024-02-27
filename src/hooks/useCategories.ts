@@ -1,36 +1,30 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
-export interface Product {
+export interface Category {
   _id: string;
-  category_id: string;
   name: string;
-  price: number;
-  rating: number;
-  category: string;
 }
 
-interface FetchProductsResponse {
-  products: Product[];
+interface FetchCategoryResponse {
+  categories: Category[];
 }
 
-const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+const useCategories = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    const configuration = {
-      signal: controller.signal,
-    };
+    const configuration = { signal: controller.signal };
 
     setLoading(true);
 
     apiClient
-      .get<FetchProductsResponse>("/product", configuration)
-      .then((res) => setProducts(res.data.products))
+      .get<FetchCategoryResponse>("/category", configuration)
+      .then((res) => setCategories(res.data.categories))
       .catch((error) => {
         if (error?.name === "CanceledError") {
           return;
@@ -45,7 +39,7 @@ const useProducts = () => {
     };
   }, []);
 
-  return { products, error, isLoading };
+  return { categories, error, isLoading };
 };
 
-export default useProducts;
+export default useCategories;

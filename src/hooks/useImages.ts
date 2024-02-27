@@ -1,37 +1,37 @@
 import burgerImage from "../assets/burger.jpg";
 import pizzaImage from "../assets/pizza.jpg";
 import sandwichImage from "../assets/sandwich.jpg";
-import coldDrinkImage from "../assets/cold-drink.jpg";
+import drinkImage from "../assets/drink.jpg";
 import broastImage from "../assets/broast.jpg";
 import friesImage from "../assets/fries.jpg";
 import rollImage from "../assets/roll.jpg";
 import tikkaImage from "../assets/tikka.jpg";
 import defaultImage from "../assets/default.jpg";
 
-const useImages = (productName: string) => {
-  switch (true) {
-    case productName.includes("burger"):
+const useImages = (category: string) => {
+  switch (category) {
+    case "Burger":
       return burgerImage;
 
-    case productName.includes("pizza"):
+    case "Pizza":
       return pizzaImage;
 
-    case productName.includes("sandwich"):
+    case "Sandwich":
       return sandwichImage;
 
-    case productName.includes("coldDrink"):
-      return coldDrinkImage;
+    case "Drink":
+      return drinkImage;
 
-    case productName.includes("broast"):
+    case "Broast":
       return broastImage;
 
-    case productName.includes("fries"):
+    case "Fries":
       return friesImage;
 
-    case productName.includes("roll"):
+    case "Roll":
       return rollImage;
 
-    case productName.includes("tikka"):
+    case "Tikka":
       return tikkaImage;
 
     default:

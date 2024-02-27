@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ProductCard = ({ product }: Props) => {
-  const image = useImages(product.name);
+  const image = useImages(product.category);
 
   return (
     <Card sx={{ margin: "8px" }}>

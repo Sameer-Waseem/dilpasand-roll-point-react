@@ -1,9 +1,14 @@
+import { CircularProgress } from "@mui/material";
+import useCategories from "../hooks/useCategories";
+
 const Sidebar = () => {
-  return (
-    <div style={{ backgroundColor: "blue", border: "5px solid black" }}>
-      Sidebar
-    </div>
-  );
+  const { categories, error, isLoading } = useCategories();
+
+  if (error) return error;
+
+  if (isLoading) return <CircularProgress />;
+
+  return categories.map((category, index) => <p>{category.name}</p>);
 };
 
 export default Sidebar;
