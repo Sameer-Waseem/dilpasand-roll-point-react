@@ -24,15 +24,18 @@ const useCategories = () => {
 
     apiClient
       .get<FetchCategoryResponse>("/category", configuration)
-      .then((res) => setCategories(res.data.categories))
+      .then((res) => {
+        setCategories(res.data.categories);
+        setLoading(false);
+      })
       .catch((error) => {
         if (error?.name === "CanceledError") {
           return;
         }
 
         setError(error.message);
-      })
-      .finally(() => setLoading(false));
+        setLoading(false);
+      });
 
     return () => {
       controller.abort();

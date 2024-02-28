@@ -14,7 +14,7 @@ interface FetchProductsResponse {
   products: Product[];
 }
 
-const useProducts = () => {
+const useProducts = (selectedCategory: string | null) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -24,26 +24,30 @@ const useProducts = () => {
 
     const configuration = {
       signal: controller.signal,
+      category_id: selectedCategory,
     };
 
     setLoading(true);
 
     apiClient
       .get<FetchProductsResponse>("/product", configuration)
-      .then((res) => setProducts(res.data.products))
+      .then((res) => {
+        setProducts(res.data.products);
+        setLoading(false);
+      })
       .catch((error) => {
         if (error?.name === "CanceledError") {
           return;
         }
 
         setError(error.message);
-      })
-      .finally(() => setLoading(false));
+        setLoading(false);
+      });
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [selectedCategory]);
 
   return { products, error, isLoading };
 };
