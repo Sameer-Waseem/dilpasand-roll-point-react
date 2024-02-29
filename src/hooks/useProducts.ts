@@ -14,7 +14,10 @@ interface FetchProductsResponse {
   products: Product[];
 }
 
-const useProducts = (selectedCategory: string | null) => {
+const useProducts = (
+  selectedCategory: string | null,
+  selectedOrderBy: string | null
+) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -24,7 +27,10 @@ const useProducts = (selectedCategory: string | null) => {
 
     const configuration = {
       signal: controller.signal,
-      category_id: selectedCategory,
+      params: {
+        category_id: selectedCategory,
+        order_by: selectedOrderBy,
+      },
     };
 
     setLoading(true);
@@ -47,7 +53,7 @@ const useProducts = (selectedCategory: string | null) => {
     return () => {
       controller.abort();
     };
-  }, [selectedCategory]);
+  }, [selectedCategory, selectedOrderBy]);
 
   return { products, error, isLoading };
 };
