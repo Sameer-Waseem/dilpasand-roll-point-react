@@ -15,6 +15,7 @@ interface FetchProductsResponse {
 }
 
 const useProducts = (
+  search: string | null,
   selectedCategory: string | null,
   selectedOrderBy: string | null
 ) => {
@@ -28,6 +29,7 @@ const useProducts = (
     const configuration = {
       signal: controller.signal,
       params: {
+        name: search,
         category_id: selectedCategory,
         order_by: selectedOrderBy,
       },
@@ -53,7 +55,7 @@ const useProducts = (
     return () => {
       controller.abort();
     };
-  }, [selectedCategory, selectedOrderBy]);
+  }, [search, selectedCategory, selectedOrderBy]);
 
   return { products, error, isLoading };
 };
