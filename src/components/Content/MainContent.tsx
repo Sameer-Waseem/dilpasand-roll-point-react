@@ -2,19 +2,14 @@ import { Grid, Typography } from "@mui/material";
 import useProducts from "../../hooks/useProducts";
 import ProductCard from "./ProductCard";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import { ProductQuery } from "../../App";
 
 interface Props {
-  search: string | null;
-  selectedCategory: string | null;
-  selectedOrderBy: string | null;
+  productQuery: ProductQuery;
 }
 
-const MainContent = ({ search, selectedCategory, selectedOrderBy }: Props) => {
-  const { products, error, isLoading } = useProducts(
-    search,
-    selectedCategory,
-    selectedOrderBy
-  );
+const MainContent = ({ productQuery }: Props) => {
+  const { products, error, isLoading } = useProducts(productQuery);
   const skeletonsCount = [1, 2, 3, 4, 5, 6];
 
   if (error) return error;
@@ -28,17 +23,18 @@ const MainContent = ({ search, selectedCategory, selectedOrderBy }: Props) => {
           </Grid>
         ))}
 
-      {!isLoading && products.length ? (
+      {!isLoading && !products.length ? (
+        <Typography variant={"h5"} padding={"10px"}>
+          No Products found!
+        </Typography>
+      ) : null}
+
+      {!isLoading &&
         products.map((product, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
             <ProductCard product={product} />
           </Grid>
-        ))
-      ) : (
-        <Typography variant={"h5"} padding={"10px"}>
-          No Products found!
-        </Typography>
-      )}
+        ))}
     </Grid>
   );
 };

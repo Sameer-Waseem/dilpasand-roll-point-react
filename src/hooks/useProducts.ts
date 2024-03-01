@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import { ProductQuery } from "../App";
 
 export interface Product {
   _id: string;
@@ -14,11 +15,7 @@ interface FetchProductsResponse {
   products: Product[];
 }
 
-const useProducts = (
-  search: string | null,
-  selectedCategory: string | null,
-  selectedOrderBy: string | null
-) => {
+const useProducts = (productQuery: ProductQuery) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string>("");
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -29,9 +26,9 @@ const useProducts = (
     const configuration = {
       signal: controller.signal,
       params: {
-        name: search,
-        category_id: selectedCategory,
-        order_by: selectedOrderBy,
+        name: productQuery.search,
+        category_id: productQuery.category,
+        order_by: productQuery.orderBy,
       },
     };
 
@@ -55,7 +52,7 @@ const useProducts = (
     return () => {
       controller.abort();
     };
-  }, [search, selectedCategory, selectedOrderBy]);
+  }, [productQuery]);
 
   return { products, error, isLoading };
 };

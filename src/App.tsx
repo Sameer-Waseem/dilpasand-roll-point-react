@@ -5,10 +5,16 @@ import MainContent from "./components/Content/MainContent";
 import { useState } from "react";
 import ContentHeader from "./components/Content/ContentHeader";
 
+export interface ProductQuery {
+  category: string | null;
+  orderBy: string | null;
+  search: string | null;
+}
+
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedOrderBy, setSelectedOrderBy] = useState<string | null>(null);
-  const [search, setSeacrh] = useState<string | null>(null);
+  const [productQuery, setProductQuery] = useState<ProductQuery>(
+    {} as ProductQuery
+  );
 
   return (
     <Grid container>
@@ -19,27 +25,23 @@ function App() {
       <Hidden smDown>
         <Grid item sm={3} md={2}>
           <Sidebar
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
+            selectedCategory={productQuery.category}
+            onSelectCategory={(categoryId) =>
+              setProductQuery({ ...productQuery, category: categoryId })
+            }
           />
         </Grid>
       </Hidden>
 
       <Grid item xs={12} sm={9} md={10}>
         <ContentHeader
-          search={search}
-          selectedOrderBy={selectedOrderBy}
-          selectedCategory={selectedCategory}
-          onSearch={setSeacrh}
-          onSelectOrderBy={setSelectedOrderBy}
-          onSelectCategory={setSelectedCategory}
+          onSearch={(search) => setProductQuery({ ...productQuery, search })}
+          onSelectOrderBy={(orderBy) =>
+            setProductQuery({ ...productQuery, orderBy })
+          }
         />
 
-        <MainContent
-          search={search}
-          selectedCategory={selectedCategory}
-          selectedOrderBy={selectedOrderBy}
-        />
+        <MainContent productQuery={productQuery} />
       </Grid>
     </Grid>
   );
