@@ -6,6 +6,10 @@ import broastImage from "../assets/broast.jpg";
 import friesImage from "../assets/fries.jpg";
 import rollImage from "../assets/roll.jpg";
 import tikkaImage from "../assets/tikka.jpg";
+import donutImage from "../assets/donut.jpg";
+import hotdogImage from "../assets/hotdog.jpg";
+import milkshakeImage from "../assets/milkshake.jpg";
+import tacoImage from "../assets/taco.jpg";
 import defaultImage from "../assets/default.jpg";
 
 const useImages = (category: string) => {
@@ -33,6 +37,18 @@ const useImages = (category: string) => {
 
     case "Tikka":
       return tikkaImage;
+
+    case "Donut":
+      return donutImage;
+
+    case "Hotdog":
+      return hotdogImage;
+
+    case "Milkshake":
+      return milkshakeImage;
+
+    case "Taco":
+      return tacoImage;
 
     default:
       return defaultImage;

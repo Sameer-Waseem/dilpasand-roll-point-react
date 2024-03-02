@@ -13,11 +13,17 @@ interface Props {
 const Sidebar = ({ selectedCategory, onSelectCategory }: Props) => {
   const { categories, error, isLoading } = useCategories();
 
+  if (isLoading) return <CircularProgress />;
+
   if (error) return error;
 
   return (
     <List>
-      {isLoading && <CircularProgress />}
+      <ListItem disablePadding>
+        <ListItemButton selected={!selectedCategory}>
+          <ListItemText primary={"All categories"} />
+        </ListItemButton>
+      </ListItem>
 
       {categories.map((category, index) => (
         <ListItem key={index} disablePadding>
